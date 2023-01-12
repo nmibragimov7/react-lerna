@@ -5,7 +5,9 @@ import Description from "@monorepo/shared/src/components/Description";
 const Main = () => {
 
     return (
-        <Description />
+        <>
+            <Description />
+        </>
     )
 };
 
