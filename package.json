@@ -11,7 +11,8 @@
     "start:main": "npx lerna run start --scope=@monorepo/main",
     "start:client": "npx lerna run dev --scope=@monorepo/client",
     "start:manager": "npx lerna run dev --scope=@monorepo/manager",
-    "start:server": "npx lerna run start:server --scope=@monorepo/server"
+    "start:server": "npx lerna run start:server --scope=@monorepo/server",
+    "build": "npx lerna run build"
   },
   "dependencies": {
     "yup": "^0.32.11"
