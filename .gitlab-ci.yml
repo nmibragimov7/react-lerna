@@ -6,7 +6,7 @@ stages:
 
 install_deps:
   tags:
-    - kube-dev
+    - kube-build
   stage: install
   image: reg.1cb.kz/dockerhub/library/node:16.17.1-alpine3.15
   artifacts:
@@ -27,33 +27,17 @@ install_deps:
 
 build:dev:
   tags:
-    - kube-dev
-  only:
-    - dev
-  <<: *base_build
-  stage: build
-  environment:
-    name: staging
-  variables:
-    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
-  script:
-    - yarn -v
-    - yarn build
-
-build:prod:
-  tags:
     - kube-build
   only:
-    - master
+    - lerna
   <<: *base_build
   stage: build
   environment:
-    name: production
+    name: kyc-staging
   variables:
     CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
   script:
-    - yarn -v
-    - yarn build
+    - npm run build
 
 .base_release: &base_release
   image:
@@ -63,42 +47,22 @@ build:prod:
 
 release:dev:
   tags:
-    - kube-dev
+    - kube-build
   only:
-    - dev
+    - lerna
   stage: release
   environment:
-    name: staging
+    name: kyc-staging
   variables:
     CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
   script:
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$HR_REGISTRY\":{\"username\":\"$HR_REGISTRY_USER\",\"password\":\"$HR_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - KANIKOPROXYBUILDARGS="--build-arg BACKEND_URL_PRE_CHECK=$BACKEND_URL_PRE_CHECK --build-arg BACKEND_URL_INTEGRATION_ADMIN=$BACKEND_URL_INTEGRATION_ADMIN --build-arg BACKEND_URL_INTEGRATION_FRP=$BACKEND_URL_INTEGRATION_FRP --build-arg BACKEND_URL_BVU=$BACKEND_URL_BVU --build-arg BACKEND_URL_AUTH_ROLE=$BACKEND_URL_AUTH_ROLE --build-arg BACKEND_URL_LAK_EMPLOYEE=$BACKEND_URL_LAK_EMPLOYEE"
+    - KANIKOPROXYBUILDARGS="--build-arg BACKEND_URL=$BACKEND_URL"
     - echo $KANIKOPROXYBUILDARGS
     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile $KANIKOPROXYBUILDARGS --destination $CONTAINER_TAGGED_IMAGE
   dependencies:
     - build:dev
-  <<: *base_release
-
-release:prod:
-  tags:
-    - kube-build
-  only:
-    - master
-  stage: release
-  environment:
-    name: production
-  variables:
-    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
-  script:
-    - mkdir -p /kaniko/.docker
-    - echo "{\"auths\":{\"$HR_REGISTRY\":{\"username\":\"$HR_REGISTRY_USER\",\"password\":\"$HR_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - KANIKOPROXYBUILDARGS="--build-arg BACKEND_URL_PRE_CHECK=$BACKEND_URL_PRE_CHECK --build-arg BACKEND_URL_INTEGRATION_ADMIN=$BACKEND_URL_INTEGRATION_ADMIN --build-arg BACKEND_URL_INTEGRATION_FRP=$BACKEND_URL_INTEGRATION_FRP --build-arg BACKEND_URL_BVU=$BACKEND_URL_BVU --build-arg BACKEND_URL_AUTH_ROLE=$BACKEND_URL_AUTH_ROLE --build-arg BACKEND_URL_LAK_EMPLOYEE=$BACKEND_URL_LAK_EMPLOYEE"
-    - echo $KANIKOPROXYBUILDARGS
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile $KANIKOPROXYBUILDARGS --destination $CONTAINER_TAGGED_IMAGE
-  dependencies:
-    - build:prod
   <<: *base_release
 
 .base_deploy: &base_deploy
@@ -106,7 +70,7 @@ release:prod:
   variables:
     CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
   tags:
-    - k8s-ext-prod # ключевой параметр определяющий раннер для сборки
+    - kube-build
   before_script:
     - kubectl config use-context autonesie/gitlab-agent:gitlab-agent-k8s-ext-prod
   image: reg.1cb.kz/library/kubectl
@@ -119,7 +83,7 @@ release:prod:
 
 deploy:dev:
   environment:
-    name: staging
+    name: kyc-staging
   dependencies: []
   variables:
     REPLICAS: 1
@@ -127,16 +91,4 @@ deploy:dev:
     refs:
       - dev
   #when: manual
-  <<: *base_deploy
-
-deploy:prod:
-  environment:
-    name: production
-  dependencies: []
-  variables:
-    REPLICAS: 1
-  only:
-    refs:
-      - master
-  when: manual
   <<: *base_deploy
