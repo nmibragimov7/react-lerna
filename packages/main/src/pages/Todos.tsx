@@ -38,7 +38,7 @@ const Todos = () => {
     return (
         <>
             <p className={"text-center text-xl font-bold mb-4"}>
-                Пакет @monorepo/main, в качестве стейт менеджмента используется <a href="https://zustand-demo.pmnd.rs/" target={"_blank"} className={"text-primary-blue hover:text-primary-blue/70 font-bold"}>zustand</a>
+                Пакет @monorepo/main, в качестве стейт менеджмента используется <a href="https://zustand-demo.pmnd.rs/" className={"text-primary-blue hover:text-primary-blue/70 font-bold"}>zustand</a>
             </p>
             <div className={"container mx-auto min-h-[40vh] py-8"}>
                 <div className={"flex justify-center"}>

@@ -10,7 +10,7 @@ const Description = () => {
     return (
         <ul className={"max-w-4xl mx-auto"}>
             <li className={"text-xl font-bold mb-4"}>
-                Монорепо проект разработан с помощью <a href="https://lerna.js.org/" target={"_blank"} className={"text-primary-blue hover:text-primary-blue/70 font-bold"}>lerna</a>:
+                Монорепо проект разработан с помощью <a href="https://lerna.js.org/" className={"text-primary-blue hover:text-primary-blue/70 font-bold"}>lerna</a>:
             </li>
             <li onClick={() => shownHandler(1)}>
                 1. <span className={"cursor-pointer font-bold text-primary-blue hover:text-primary-blue/70"}>Пакет @monorepo/main:</span>

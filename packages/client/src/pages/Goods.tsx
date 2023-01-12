@@ -29,7 +29,7 @@ const Goods = observer(() => {
         <>
             <p className={"text-center text-xl font-bold mb-4"}>
                 Пакет @monorepo/client, в качестве стейт менеджмента используется <a
-                href="https://mobx.js.org/README.html" target={"_blank"}
+                href="https://mobx.js.org/README.html"
                 className={"text-primary-blue hover:text-primary-blue/70 font-bold"}>mobx</a>
             </p>
             { error && <div className={"text-red text-center"}>{error}</div> }

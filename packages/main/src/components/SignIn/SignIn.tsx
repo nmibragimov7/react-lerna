@@ -41,12 +41,10 @@ const SignIn: React.FC<IProps> = ({ setState }) => {
             <div className={styles.SignIn}>
                 <a
                     href="http://localhost:4200"
-                    target={"_blank"}
                     className={"w-full text-center shadow px-4 py-2 bg-green text-light-blue hover:green/70"}
                 >Клиент</a>
                 <a
                     href="http://localhost:5000"
-                    target={"_blank"}
                     className={"w-full text-center shadow px-4 py-2 bg-red text-light-blue hover:bg-red/70"}
                 >Менеджер</a>
             </div>
