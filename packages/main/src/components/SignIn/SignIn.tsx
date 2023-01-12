@@ -7,6 +7,7 @@ import {useUser} from "../../store";
 import {SignInProps} from "../../model/types";
 import {toast} from "@monorepo/shared/src/components/base/BaseToasts/BaseToasts";
 import styles from "./SignIn.module.scss";
+import {Link} from "react-router-dom";
 
 interface IProps {
     setState: (value: boolean) => void;
@@ -36,30 +37,35 @@ const SignIn: React.FC<IProps> = ({ setState }) => {
             link.click();
         }
     });
-    useEffect(() => {
-        return () => {
-            formik.resetForm();
-        }
-    }, []);
 
     return (
         <>
             <p className={"text-center text-2xl text-dark mb-4"}>Авторизоваться</p>
             <div className={styles.SignIn}>
-                <BaseInput
-                    name={"username"}
-                    value={formik.values.username}
-                    placeholder={"введите логин"}
-                    onChange={formik.handleChange}
-                />
-                <BaseInput
-                    type={"password"}
-                    name={"password"}
-                    value={formik.values.password}
-                    placeholder={"введите пароль"}
-                    onChange={formik.handleChange}
-                />
-                <BaseButton onClick={formik.handleSubmit}>Войти</BaseButton>
+                {/*<BaseInput*/}
+                {/*    name={"username"}*/}
+                {/*    value={formik.values.username}*/}
+                {/*    placeholder={"введите логин"}*/}
+                {/*    onChange={formik.handleChange}*/}
+                {/*/>*/}
+                {/*<BaseInput*/}
+                {/*    type={"password"}*/}
+                {/*    name={"password"}*/}
+                {/*    value={formik.values.password}*/}
+                {/*    placeholder={"введите пароль"}*/}
+                {/*    onChange={formik.handleChange}*/}
+                {/*/>*/}
+                {/*<BaseButton onClick={formik.handleSubmit}>Войти</BaseButton>*/}
+                <a
+                    href="http://localhost:4200"
+                    target={"_blank"}
+                    className={"w-full text-center shadow px-4 py-2 bg-green text-light-blue hover:green/70"}
+                >Клиент</a>
+                <a
+                    href="http://localhost:5000"
+                    target={"_blank"}
+                    className={"w-full text-center shadow px-4 py-2 bg-red text-light-blue hover:bg-red/70"}
+                >Менеджер</a>
             </div>
         </>
     );

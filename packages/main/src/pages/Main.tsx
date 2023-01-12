@@ -13,7 +13,13 @@ const Main = () => {
                 Монорепо проект разработан с помощью <a href="https://lerna.js.org/" target={"_blank"} className={"text-primary-blue hover:text-primary-blue/70 font-bold"}>lerna</a>:
             </li>
             <li onClick={() => shownHandler(1)}>
-                1. <span className={"cursor-pointer font-bold text-primary-blue hover:text-primary-blue/70"}>Пакет @monorepo/main (React проект):</span>
+                1. <span className={"cursor-pointer font-bold text-primary-blue hover:text-primary-blue/70"}>Пакет @monorepo/main:</span>
+            </li>
+            <li>
+               <div className={"text-sm text-gray-500 ml-4"}>
+                   <p>React проект</p>
+                   <p>Проиницилизирован с помощью npx create-react-app</p>
+               </div>
             </li>
             {
                 shown === 1 && <li>
@@ -94,7 +100,13 @@ const Main = () => {
                 </li>
             }
             <li onClick={() => shownHandler(2)}>
-                2. <span className={"cursor-pointer font-bold text-primary-blue hover:text-primary-blue/70"}>Пакет @monorepo/client (React проект):</span>
+                2. <span className={"cursor-pointer font-bold text-primary-blue hover:text-primary-blue/70"}>Пакет @monorepo/client:</span>
+            </li>
+            <li>
+                <div className={"text-sm text-gray-500 ml-4"}>
+                    <p>React проект</p>
+                    <p>Проиницилизирован с помощью npm create vite@latest</p>
+                </div>
             </li>
             {
                 shown === 2 && <li>

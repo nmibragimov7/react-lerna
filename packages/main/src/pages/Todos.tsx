@@ -2,12 +2,13 @@ import React, {useState} from 'react';
 import shallow from "zustand/shallow";
 import {useFormik} from "formik";
 
+import Sidebar from "../layout/Sidebar";
 import Todo from "../components/Todo/Todo";
 import BaseButton from "@monorepo/shared/src/components/base/BaseButton/BaseButton";
 import BaseInput from "@monorepo/shared/src/components/base/BaseInput/BaseInput";
-import Sidebar from "../layout/Sidebar";
 import {useTodos} from "../store";
 import {TodoProps} from "../model/types";
+import {toast} from "@monorepo/shared/src/components/base/BaseToasts/BaseToasts";
 
 const Todos = () => {
     const [shown, setShown] = useState(false);
@@ -23,10 +24,11 @@ const Todos = () => {
         initialValues: {
             title: ""
         },
-        onSubmit(values) {
+        async onSubmit(values) {
             setShown(false);
-            addTodo(values.title);
+            const response = await addTodo(values.title);
             formik.resetForm();
+            toast.success(response);
         }
     });
     const fetchData = () => {

@@ -15,6 +15,12 @@ const Main = () => {
             <li onClick={() => shownHandler(1)}>
                 1. <span className={"cursor-pointer font-bold text-primary-blue hover:text-primary-blue/70"}>Пакет @monorepo/main (React проект):</span>
             </li>
+            <li>
+                <div className={"text-sm text-gray-500 ml-4"}>
+                    <p>React проект</p>
+                    <p>Проиницилизирован с помощью npx create-react-app</p>
+                </div>
+            </li>
             {
                 shown === 1 && <li>
                     <div className={"ml-4"}>
@@ -95,6 +101,12 @@ const Main = () => {
             }
             <li onClick={() => shownHandler(2)}>
                 2. <span className={"cursor-pointer font-bold text-primary-blue hover:text-primary-blue/70"}>Пакет @monorepo/client (React проект):</span>
+            </li>
+            <li>
+                <div className={"text-sm text-gray-500 ml-4"}>
+                    <p>React проект</p>
+                    <p>Проиницилизирован с помощью npm create vite@latest</p>
+                </div>
             </li>
             {
                 shown === 2 && <li>

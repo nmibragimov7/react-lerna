@@ -42,8 +42,10 @@ export const useTodos = create<ITodo>(
                     title
                 });
                 set({todos: response.data, error: null});
+                return "todo успешно добавлен";
             } catch (e: any) {
                 set({error: e.response.data.message});
+                return e.response.data.message;
             } finally {
                 set({loading: false});
             }
