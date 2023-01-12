@@ -1,13 +1,10 @@
-import React, {ReactNode, useEffect} from 'react';
+import React from 'react';
 import {useFormik} from "formik";
 
-import BaseInput from "@monorepo/shared/src/components/base/BaseInput/BaseInput";
-import BaseButton from "@monorepo/shared/src/components/base/BaseButton/BaseButton";
 import {useUser} from "../../store";
 import {SignInProps} from "../../model/types";
 import {toast} from "@monorepo/shared/src/components/base/BaseToasts/BaseToasts";
 import styles from "./SignIn.module.scss";
-import {Link} from "react-router-dom";
 
 interface IProps {
     setState: (value: boolean) => void;
@@ -42,20 +39,6 @@ const SignIn: React.FC<IProps> = ({ setState }) => {
         <>
             <p className={"text-center text-2xl text-dark mb-4"}>Авторизоваться</p>
             <div className={styles.SignIn}>
-                {/*<BaseInput*/}
-                {/*    name={"username"}*/}
-                {/*    value={formik.values.username}*/}
-                {/*    placeholder={"введите логин"}*/}
-                {/*    onChange={formik.handleChange}*/}
-                {/*/>*/}
-                {/*<BaseInput*/}
-                {/*    type={"password"}*/}
-                {/*    name={"password"}*/}
-                {/*    value={formik.values.password}*/}
-                {/*    placeholder={"введите пароль"}*/}
-                {/*    onChange={formik.handleChange}*/}
-                {/*/>*/}
-                {/*<BaseButton onClick={formik.handleSubmit}>Войти</BaseButton>*/}
                 <a
                     href="http://localhost:4200"
                     target={"_blank"}

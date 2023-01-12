@@ -17,16 +17,19 @@ const Basket: React.FC = observer(() => {
     }
 
     return (
-        <div className={classes(styles.Basket)}>
-            {
-                goods.map((good: Good) => (
-                    <div key={good.id} className={"flex justify-between items-center bg-dark/80 shadow-gray-100 p-4"}>
-                        <span className={"text-dark text-white"}>{good.title}</span>
-                        <img src={close} alt="close img" className={"cursor-pointer w-4 h-4"} onClick={() => removeFromBasket(good)}/>
-                    </div>
-                ))
-            }
-        </div>
+        <>
+            <p className={"text-center text-2xl text-white font-bold mb-4"}>Корзина</p>
+            <div className={classes(styles.Basket)}>
+                {
+                    goods.map((good: Good) => (
+                        <div key={good.id} className={"flex justify-between items-center bg-dark/80 shadow-gray-100 p-4"}>
+                            <span className={"text-white"}>{good.title}</span>
+                            <img src={close} alt="close img" className={"cursor-pointer w-4 h-4"} onClick={() => removeFromBasket(good)}/>
+                        </div>
+                    ))
+                }
+            </div>
+        </>
     );
 });
 
