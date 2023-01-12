@@ -1,4 +1,4 @@
-FROM reg.1cb.kz/dockerhub/library/nginx:latest
+FROM reg.1cb.kz/dockerhub/library/nginx:1.19-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 ARG BACKEND_URL
