@@ -19,6 +19,7 @@ const Main = () => {
                 <div className={"text-sm text-gray-500 ml-4"}>
                     <p>React проект</p>
                     <p>Проиницилизирован с помощью npx create-react-app</p>
+                    <p>Запускается на localhost:3000</p>
                 </div>
             </li>
             {
@@ -106,6 +107,7 @@ const Main = () => {
                 <div className={"text-sm text-gray-500 ml-4"}>
                     <p>React проект</p>
                     <p>Проиницилизирован с помощью npm create vite@latest</p>
+                    <p>Запускается на localhost:4200</p>
                 </div>
             </li>
             {
