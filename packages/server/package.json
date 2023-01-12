@@ -1,0 +1,16 @@
+{
+  "name": "@monorepo/server",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./json-server/index.js",
+  "scripts": {
+    "start:server": "nodemon ./json-server/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "json-server": "^0.17.1",
+    "nodemon": "^2.0.20"
+  }
+}

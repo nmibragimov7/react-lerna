@@ -23,7 +23,6 @@
   },
   "scripts": {
     "start": "craco start",
-    "start:server": "nodemon ./json-server/index.js",
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject"
@@ -49,8 +48,6 @@
   "devDependencies": {
     "@craco/craco": "^7.0.0",
     "autoprefixer": "^10.4.13",
-    "json-server": "^0.17.1",
-    "nodemon": "^2.0.20",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4"
   }
