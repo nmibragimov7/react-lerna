@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     RouterProvider,
     Route,
@@ -8,21 +8,43 @@ import {
 
 import Main from "./Main";
 import Todos from "./Todos";
-import Header from "@monorepo/shared/src/layout/Header";
-
-const router = createBrowserRouter(createRoutesFromElements(
-    <>
-        <Route path={"/"} element={<Header />}>
-            <Route index element={<Main />} />
-            <Route path={"todos"} element={<Todos />} />
-            <Route path={"*"} element={<Main />} />
-        </Route>
-    </>
-));
+import SignIn from "../components/SignIn/SignIn";
+import Header from "../layout/Header";
+import BaseToasts from "@monorepo/shared/src/components/base/BaseToasts/BaseToasts";
+import {useUser} from "../store";
 
 const Pages = () => {
+    const [state, setState] = useState(false);
+    const {user, logout} = useUser(state => ({
+        user: state.user,
+        logout: state.logout
+    }));
+
+    const router = createBrowserRouter(createRoutesFromElements(
+        <>
+            <Route
+                path={"/"}
+                element={<Header
+                    isAuth={!!user}
+                    logout={logout}
+                    state={state}
+                    setState={setState}
+                    children={<SignIn setState={setState}/>
+                    }
+                />}
+            >
+                <Route index element={<Main />} />
+                <Route path={"todos"} element={<Todos />} />
+                <Route path={"*"} element={<Main />} />
+            </Route>
+        </>
+    ));
+
     return (
-        <RouterProvider router={router}/>
+        <>
+            <BaseToasts />
+            <RouterProvider router={router}/>
+        </>
     );
 };
 

@@ -8,6 +8,8 @@
     "lerna": "^6.4.0"
   },
   "scripts": {
-    "start": "npx lerna run start --scope=@monorepo/main"
+    "start:main": "npx lerna run start --scope=@monorepo/main",
+    "start:client": "npx lerna run dev --scope=@monorepo/client",
+    "start:server": "npx lerna run start:server --scope=@monorepo/main"
   }
 }

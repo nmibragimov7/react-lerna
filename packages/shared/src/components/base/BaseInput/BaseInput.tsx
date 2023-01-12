@@ -29,6 +29,7 @@ const BaseInput: React.FC<IProps> = (props) => {
                 placeholder={placeholder}
                 type={type}
                 className={[styles.BaseInput, className].join(" ")}
+                autoComplete={"new-password"}
                 onChange={onChange}
             />
         </>

@@ -5,7 +5,7 @@ import {useFormik} from "formik";
 import Todo from "../components/Todo/Todo";
 import BaseButton from "@monorepo/shared/src/components/base/BaseButton/BaseButton";
 import BaseInput from "@monorepo/shared/src/components/base/BaseInput/BaseInput";
-import Sidebar from "@monorepo/shared/src/layout/Sidebar";
+import Sidebar from "../layout/Sidebar";
 import {useTodos} from "../store";
 import {TodoProps} from "../model/types";
 
@@ -29,13 +29,19 @@ const Todos = () => {
             formik.resetForm();
         }
     });
+    const fetchData = () => {
+        fetchTodos();
+    }
 
     return (
         <>
-            <div className={"container mx-auto min-h-[50vh] py-8"}>
+            <p className={"text-center text-xl font-bold mb-4"}>
+                Пакет @monorepo/main, в качестве стейт менеджмента используется <a href="https://zustand-demo.pmnd.rs/" target={"_blank"} className={"text-primary-blue hover:text-primary-blue/70 font-bold"}>zustand</a>
+            </p>
+            <div className={"container mx-auto min-h-[40vh] py-8"}>
                 <div className={"flex justify-center"}>
-                    <BaseButton disabled={loading} className={"!bg-gray-100 !text-dark max-w-xs mx-auto mb-8"} onClick={fetchTodos}>
-                        {!error ? "Get todos" : error}
+                    <BaseButton disabled={loading} className={"!bg-gray-100 !text-dark max-w-xs mx-auto mb-8"} onClick={fetchData}>
+                        {!error ? "Получить todos" : error}
                     </BaseButton>
                 </div>
                 <div className={"flex flex-col gap-2 max-w-md mx-auto"}>
@@ -45,7 +51,7 @@ const Todos = () => {
                 </div>
             </div>
             <div className={"w-full h-px bg-gray-100"}/>
-            <div className={"max-w-3xl mx-auto min-h-[50vh] py-8 flex flex-col items-center"}>
+            <div className={"max-w-3xl mx-auto min-h-[30vh] py-8 flex flex-col items-center"}>
                 <div className={"text-center font-bold text-dark mb-4"}>Количество todos: { count }</div>
                 <BaseButton
                     className={"mb-8 max-w-xs !bg-green !text-white"}
@@ -53,13 +59,15 @@ const Todos = () => {
                 >Добавить todo</BaseButton>
             </div>
             <Sidebar shown={shown} setState={setShown}>
-                <BaseInput
-                    name={"title"}
-                    value={formik.values.title}
-                    placeholder={"Напишите заголовок..."}
-                    onChange={formik.handleChange}
-                />
-                <BaseButton onClick={formik.handleSubmit}>Добавить</BaseButton>
+                <div className={"flex flex-col gap-4"}>
+                    <BaseInput
+                        name={"title"}
+                        value={formik.values.title}
+                        placeholder={"Напишите заголовок..."}
+                        onChange={formik.handleChange}
+                    />
+                    <BaseButton onClick={formik.handleSubmit}>Добавить</BaseButton>
+                </div>
             </Sidebar>
         </>
     );
