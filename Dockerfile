@@ -5,7 +5,7 @@ ARG BACKEND_URL
 
 RUN sed -i "s|%%BACKEND_URL%%|${BACKEND_URL}|g" /etc/nginx/conf.d/default.conf
 
-RUN echo ./packages
+RUN echo $(ls -1 ./packages)
 
 #COPY packages/shared/build/ /var/www/shared
 #COPY packages/main/build/ /var/www/main
