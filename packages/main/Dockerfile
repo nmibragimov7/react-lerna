@@ -1,7 +1,7 @@
 FROM reg.1cb.kz/dockerhub/library/nginx:latest
-RUN ls builds
-RUN ls builds/abis
-RUN ls builds/abis/demo-deploy
+RUN ls -a
+RUN ls builds/abis/demo-deploy/packages/main
+RUN ls builds/abis/demo-deploy/packages/main/build
 COPY packages/main/nginx.conf /etc/nginx/conf.d/default.conf
 
 ARG BACKEND_URL
