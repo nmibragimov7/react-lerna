@@ -24,8 +24,8 @@ install_deps:
   image: reg.1cb.kz/dockerhub/library/node:16.17.1-alpine3.15
   artifacts:
     expire_in: 5 minute
-#    paths:
-#      - ./build
+    paths:
+      - ./packages/main/build
 
 build:dev:
   tags:

@@ -1,15 +1,17 @@
 stages:
+  - cache
   - release
   - deploy
 
-#cache:dev:
-#  script:
-#    - echo "This job uses a cache."
-#    - ls -a
-#  cache:
-#    key: node_modules
-#    paths:
-#      - node_modules
+cache:dev:
+  stage: cache
+  script:
+    - echo "This job uses a cache."
+    - ls -a
+  cache:
+    key: node_modules
+    paths:
+      - node_modules
 
 .base_release: &base_release
   image:
