@@ -16,7 +16,7 @@ stages:
 
 build:dev:
   <<: *base_build
-  stage: build-main
+  stage: build
   variables:
     CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
   script:
@@ -34,7 +34,7 @@ release:dev:
     - kube-build
   only:
     - /lerna^/
-  stage: release-main
+  stage: release
   environment:
     name: kyc-staging
   variables:
