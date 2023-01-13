@@ -19,8 +19,9 @@ install_deps:
   image: reg.1cb.kz/dockerhub/library/node:16.17.1-alpine3.15
   artifacts:
     expire_in: 5 minute
-#    paths:
-#      - ./build
+    paths:
+      - ./packages/main/build
+      - ./packages/client/dist
 
 build:dev:
   tags:
@@ -32,7 +33,8 @@ build:dev:
   environment:
     name: kyc-staging
   variables:
-    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
+    CONTAINER_TAGGED_IMAGE_MAIN: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_MAIN
+    CONTAINER_TAGGED_IMAGE_CLIENT: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_CLIENT
   script:
     - npm run build
 
