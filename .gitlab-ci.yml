@@ -116,8 +116,8 @@ deploy-main:dev:
   script:
     - kubectl create secret docker-registry harbor --docker-server=$HR_REGISTRY --docker-username=$HR_REGISTRY_USER --docker-password=$HR_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL --dry-run=true -o yaml | kubectl replace --force -f -
     - cat $CI_PROJECT_DIR/k8s/deployment-main.yml | envsubst | kubectl apply -f -
-    - cat $CI_PROJECT_DIR/k8s/service-main.yaml | envsubst | kubectl apply -f -
-    - cat $CI_PROJECT_DIR/k8s/ingress-main.yaml | envsubst | kubectl apply -f -
+    - cat $CI_PROJECT_DIR/k8s/service-main.yml | envsubst | kubectl apply -f -
+    - cat $CI_PROJECT_DIR/k8s/ingress-main.yml | envsubst | kubectl apply -f -
 
   <<: *base_deploy
 
@@ -133,6 +133,6 @@ deploy-client:dev:
   script:
     - kubectl create secret docker-registry harbor --docker-server=$HR_REGISTRY --docker-username=$HR_REGISTRY_USER --docker-password=$HR_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL --dry-run=true -o yaml | kubectl replace --force -f -
     - cat $CI_PROJECT_DIR/k8s/deployment-client.yml | envsubst | kubectl apply -f -
-    - cat $CI_PROJECT_DIR/k8s/service-client.yaml | envsubst | kubectl apply -f -
-    - cat $CI_PROJECT_DIR/k8s/ingress-client.yaml | envsubst | kubectl apply -f -
+    - cat $CI_PROJECT_DIR/k8s/service-client.yml | envsubst | kubectl apply -f -
+    - cat $CI_PROJECT_DIR/k8s/ingress-client.yml | envsubst | kubectl apply -f -
   <<: *base_deploy
