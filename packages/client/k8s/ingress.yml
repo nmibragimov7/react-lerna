@@ -11,7 +11,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-buffering: "off"
 spec:
   rules:
-    - host: ${MY_HOST}
+    - host: ${HOST_CLIENT}
       http:
         paths:
           - path: /
