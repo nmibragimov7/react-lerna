@@ -1,7 +1,6 @@
-FROM reg.1cb.kz/dockerhub/library/nginx:1.19-alpine
-
+FROM reg.1cb.kz/dockerhub/library/nginx:latest
 RUN ls -a
-#COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 ARG BACKEND_URL
 ARG HOST_CLIENT
@@ -10,4 +9,4 @@ RUN echo $HOST_CLIENT
 
 RUN sed -i "s|%%BACKEND_URL%%|${BACKEND_URL}|g" /etc/nginx/conf.d/default.conf
 
-#COPY build/ /var/www
+COPY build/ /var/www
