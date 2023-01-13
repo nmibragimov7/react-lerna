@@ -39,7 +39,7 @@ build-main:dev:
   <<: *base_build
   stage: build-main
   variables:
-    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_MAIN
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID-main
   script:
     - npm run build
     - ls packages/main
@@ -48,7 +48,7 @@ build-client:dev:
   <<: *base_build
   stage: build-client
   variables:
-    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_CLIENT
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID-client
   script:
     - npm run build
     - ls packages/client
@@ -68,13 +68,13 @@ release-main:dev:
   environment:
     name: kyc-staging
   variables:
-    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_MAIN
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID-main
   script:
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$HR_REGISTRY\":{\"username\":\"$HR_REGISTRY_USER\",\"password\":\"$HR_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - KANIKOPROXYBUILDARGS="--build-arg BACKEND_URL=$BACKEND_URL --build-arg HOST_CLIENT=$HOST_CLIENT"
     - echo $KANIKOPROXYBUILDARGS
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile $KANIKOPROXYBUILDARGS --destination $CONTAINER_TAGGED_IMAGE_MAIN
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile $KANIKOPROXYBUILDARGS --destination $CONTAINER_TAGGED_IMAGE-main
   dependencies:
     - build-main:dev
   <<: *base_release
@@ -88,13 +88,13 @@ release-client:dev:
   environment:
     name: kyc-staging
   variables:
-    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_CLIENT
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID-client
   script:
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$HR_REGISTRY\":{\"username\":\"$HR_REGISTRY_USER\",\"password\":\"$HR_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - KANIKOPROXYBUILDARGS="--build-arg BACKEND_URL=$BACKEND_URL --build-arg HOST_CLIENT=$HOST_CLIENT"
     - echo $KANIKOPROXYBUILDARGS
-    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile $KANIKOPROXYBUILDARGS --destination $CONTAINER_TAGGED_IMAGE_CLIENT
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile $KANIKOPROXYBUILDARGS --destination $CONTAINER_TAGGED_IMAGE-client
   dependencies:
     - build-client:dev
   <<: *base_release
@@ -110,7 +110,7 @@ deploy-main:dev:
   stage: deploy-main
   dependencies: []
   variables:
-    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_MAIN
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID-main
   environment:
     name: kyc-staging
   script:
@@ -131,7 +131,7 @@ deploy-client:dev:
   stage: deploy-client
   dependencies: []
   variables:
-    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_CLIENT
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID-client
   environment:
     name: kyc-staging
   script:

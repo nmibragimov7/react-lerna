@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: $CI_PROJECT_NAME_MAIN
+  name: $CI_PROJECT_NAME-main
   labels:
     maintainer: ${GITLAB_USER_LOGIN}
-    app: $CI_PROJECT_NAME_MAIN
+    app: $CI_PROJECT_NAME-main
 spec:
   selector:
     matchLabels:
-      app: $CI_PROJECT_NAME_MAIN
+      app: $CI_PROJECT_NAME-main
   replicas: 1
   template:
     metadata:
       labels:
         maintainer: ${GITLAB_USER_LOGIN}
-        app: $CI_PROJECT_NAME_MAIN
+        app: $CI_PROJECT_NAME-main
     spec:
       containers:
-        - name: ${CI_PROJECT_NAME}_MAIN
-          image: ${CONTAINER_TAGGED_IMAGE}_MAIN
+        - name: ${CI_PROJECT_NAME}-main
+          image: ${CONTAINER_TAGGED_IMAGE}-main
           ports:
             - containerPort: ${APP_PORT}
           livenessProbe: # livenessProbe - этот убивает контейнер; readinessProbe - более щадящий режим убирает endpoint pod из сервисов

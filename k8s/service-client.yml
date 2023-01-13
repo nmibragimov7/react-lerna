@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ${CI_PROJECT_NAME}_CLIENT
+  name: ${CI_PROJECT_NAME}-client
 spec:
   type: ClusterIP
   ports:
@@ -9,4 +9,4 @@ spec:
       port: ${APP_PORT}
       targetPort: ${APP_PORT}
   selector:
-    app: ${CI_PROJECT_NAME}_CLIENT
+    app: ${CI_PROJECT_NAME}-client
