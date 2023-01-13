@@ -1,7 +1,11 @@
 stages:
   - install
-  - build
-  - triggers
+  - build-main
+  - release-main
+  - deploy-main
+  - build-client
+  - release-client
+  - deploy-client
 
 install_deps:
   tags:
@@ -17,44 +21,134 @@ install_deps:
 
 .base_build: &base_build
   image: reg.1cb.kz/dockerhub/library/node:16.17.1-alpine3.15
-  artifacts:
-    expire_in: 5 minute
-    paths:
-      - ./packages/main/build
-      - ./packages/client/dist
+  script:
+    - npm run build
 
-build:dev:
+build-main:dev:
   tags:
     - kube-build
   only:
     - lerna
   <<: *base_build
-  stage: build
+  stage: build-main
   environment:
     name: kyc-staging
   variables:
-    CONTAINER_TAGGED_IMAGE_MAIN: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_MAIN
-    CONTAINER_TAGGED_IMAGE_CLIENT: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_CLIENT
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_MAIN
   script:
-    - npm run build
     - ls packages/main
+  artifacts:
+    expire_in: 5 minute
+    paths:
+      - ./packages/main/build
 
-trigger_main:
-  stage: triggers
-  trigger:
-    include: packages/main/.gitlab-ci.yml
+build-client:dev:
+  tags:
+    - kube-build
   only:
-    changes:
-      - "packages/main/**/*"
-    refs:
-      - lerna
+    - lerna
+  <<: *base_build
+  stage: build-client
+  environment:
+    name: kyc-staging
+  variables:
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_CLIENT
+  script:
+    - ls packages/client
+  artifacts:
+    expire_in: 5 minute
+    paths:
+      - ./packages/client/dist
 
-trigger_client:
-  stage: triggers
-  trigger:
-    include: packages/client/.gitlab-ci.yml
+.base_release: &base_release
+  image:
+    name: reg.1cb.kz/library/kaniko-project/executor:debug
+    entrypoint: [""]
+  allow_failure: false
+
+release-main:dev:
+  tags:
+    - kube-build
   only:
-    changes:
-      - "packages/client/**/*"
-    refs:
-      - lerna
+    - lerna
+  stage: release-main
+  environment:
+    name: kyc-staging
+  variables:
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_MAIN
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$HR_REGISTRY\":{\"username\":\"$HR_REGISTRY_USER\",\"password\":\"$HR_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - KANIKOPROXYBUILDARGS="--build-arg BACKEND_URL=$BACKEND_URL --build-arg HOST_CLIENT=$HOST_CLIENT"
+    - echo $KANIKOPROXYBUILDARGS
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile $KANIKOPROXYBUILDARGS --destination $CONTAINER_TAGGED_IMAGE_MAIN
+  dependencies:
+    - build-main:dev
+  <<: *base_release
+
+release-client:dev:
+  tags:
+    - kube-build
+  only:
+    - lerna
+  stage: release-client
+  environment:
+    name: kyc-staging
+  variables:
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_CLIENT
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$HR_REGISTRY\":{\"username\":\"$HR_REGISTRY_USER\",\"password\":\"$HR_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - KANIKOPROXYBUILDARGS="--build-arg BACKEND_URL=$BACKEND_URL --build-arg HOST_CLIENT=$HOST_CLIENT"
+    - echo $KANIKOPROXYBUILDARGS
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile $KANIKOPROXYBUILDARGS --destination $CONTAINER_TAGGED_IMAGE_CLIENT
+  dependencies:
+    - build-client:dev
+  <<: *base_release
+
+.base_deploy: &base_deploy
+  image: reg.1cb.kz/library/kubectl
+  tags:
+    - kube-build
+
+deploy-main:dev:
+  only:
+    - lerna
+  stage: deploy-main
+  dependencies: []
+  variables:
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_MAIN
+  environment:
+    name: kyc-staging
+  script:
+    - kubectl create secret docker-registry harbor
+      --docker-server=$HR_REGISTRY
+      --docker-username=$HR_REGISTRY_USER
+      --docker-password=$HR_REGISTRY_PASSWORD
+      --docker-email=$GITLAB_USER_EMAIL
+      --dry-run=true -o yaml | kubectl replace --force -f -
+    - cat ./k8s/service-main.yml | envsubst | kubectl apply -f -
+    - cat ./k8s/deployment-main.yml | envsubst | kubectl apply -f -
+    - cat ./k8s/ingress-main.yml | envsubst | kubectl apply -f -
+  <<: *base_deploy
+
+deploy-client:dev:
+  only:
+    - lerna
+  stage: deploy-client
+  dependencies: []
+  variables:
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_CLIENT
+  environment:
+    name: kyc-staging
+  script:
+    - kubectl create secret docker-registry harbor
+      --docker-server=$HR_REGISTRY
+      --docker-username=$HR_REGISTRY_USER
+      --docker-password=$HR_REGISTRY_PASSWORD
+      --docker-email=$GITLAB_USER_EMAIL
+      --dry-run=true -o yaml | kubectl replace --force -f -
+    - cat ./k8s/service-client.yml | envsubst | kubectl apply -f -
+    - cat ./k8s/deployment-client.yml | envsubst | kubectl apply -f -
+    - cat ./k8s/ingress-client.yml | envsubst | kubectl apply -f -
+  <<: *base_deploy

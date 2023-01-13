@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $CI_PROJECT_NAME_MAIN
+  labels:
+    maintainer: ${GITLAB_USER_LOGIN}
+    app: $CI_PROJECT_NAME_MAIN
+spec:
+  selector:
+    matchLabels:
+      app: $CI_PROJECT_NAME_MAIN
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        maintainer: ${GITLAB_USER_LOGIN}
+        app: $CI_PROJECT_NAME_MAIN
+    spec:
+      containers:
+        - name: ${CI_PROJECT_NAME}_MAIN
+          image: ${CONTAINER_TAGGED_IMAGE}_MAIN
+          ports:
+            - containerPort: ${APP_PORT}
+          livenessProbe: # livenessProbe - этот убивает контейнер; readinessProbe - более щадящий режим убирает endpoint pod из сервисов
+            httpGet:
+              path: /healthz/
+              port: ${APP_PORT}
+            failureThreshold: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+      imagePullSecrets:
+        - name: harbor-$CI_PROJECT_ID

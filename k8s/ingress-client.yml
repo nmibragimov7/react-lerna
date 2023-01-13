@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ${CI_PROJECT_NAME}_CLIENT-ingress
+  labels:
+    maintainer: ${GITLAB_USER_LOGIN}
+    app: ${CI_PROJECT_NAME}_CLIENT
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-body-size: "8m"
+    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+spec:
+  rules:
+    - host: ${HOST_CLIENT}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: $CI_PROJECT_NAME_CLIENT
+                port:
+                  number: ${APP_PORT}
