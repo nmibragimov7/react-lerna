@@ -72,7 +72,7 @@ release-main:dev:
   script:
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$HR_REGISTRY\":{\"username\":\"$HR_REGISTRY_USER\",\"password\":\"$HR_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - KANIKOPROXYBUILDARGS="--build-arg BACKEND_URL=$BACKEND_URL --build-arg HOST_CLIENT=$HOST_CLIENT PACKAGE=main"
+    - KANIKOPROXYBUILDARGS="--build-arg BACKEND_URL=$BACKEND_URL --build-arg HOST_CLIENT=$HOST_CLIENT --build-arg PACKAGE=main --build-arg BUILD=build"
     - echo $KANIKOPROXYBUILDARGS
     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile $KANIKOPROXYBUILDARGS --destination $CONTAINER_TAGGED_IMAGE-main
   dependencies:
@@ -92,7 +92,7 @@ release-client:dev:
   script:
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$HR_REGISTRY\":{\"username\":\"$HR_REGISTRY_USER\",\"password\":\"$HR_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
-    - KANIKOPROXYBUILDARGS="--build-arg BACKEND_URL=$BACKEND_URL --build-arg HOST_CLIENT=$HOST_CLIENT PACKAGE=client"
+    - KANIKOPROXYBUILDARGS="--build-arg BACKEND_URL=$BACKEND_URL --build-arg HOST_CLIENT=$HOST_CLIENT --build-arg PACKAGE=client --build-arg BUILD=dist"
     - echo $KANIKOPROXYBUILDARGS
     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile $KANIKOPROXYBUILDARGS --destination $CONTAINER_TAGGED_IMAGE-client
   dependencies:
