@@ -1,5 +1,6 @@
 stages:
   - install
+  - build
   - triggers
 
 install_deps:
@@ -10,11 +11,32 @@ install_deps:
   artifacts:
     paths:
       - node_modules
-      - packages/main/build
     expire_in: 15 minute
   script:
     - npm i
-    - ls packages/main
+    - ls -a
+
+.base_build: &base_build
+  image: reg.1cb.kz/dockerhub/library/node:16.17.1-alpine3.15
+  artifacts:
+    expire_in: 5 minute
+#    paths:
+#      - ./build
+
+build:dev:
+  tags:
+    - kube-build
+  only:
+    - /^lerna-.*/
+  <<: *base_build
+  stage: build
+  environment:
+    name: kyc-staging
+  variables:
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
+  script:
+    - npm run build
+    - ls -a
 
 trigger_main:
   stage: triggers
@@ -24,7 +46,7 @@ trigger_main:
     changes:
       - "packages/main/**/*"
     refs:
-      - /lerna^/
+      - /^lerna-.*/
 #  script:
 #    - ls -a
 #    - cat node_modules
