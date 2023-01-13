@@ -19,6 +19,7 @@ release:dev:
   variables:
     CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
   script:
+    - la -a
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$HR_REGISTRY\":{\"username\":\"$HR_REGISTRY_USER\",\"password\":\"$HR_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - KANIKOPROXYBUILDARGS="--build-arg BACKEND_URL=$BACKEND_URL"
@@ -40,9 +41,9 @@ release:dev:
   script:
     - ls -a
     - kubectl create secret docker-registry harbor --docker-server=$HR_REGISTRY --docker-username=$HR_REGISTRY_USER --docker-password=$HR_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL --dry-run=true -o yaml | kubectl replace --force -f -
-    - cat ./k8s/service-main.yml | envsubst | kubectl apply -f -
-    - cat ./k8s/deployment-main.yml | envsubst | kubectl apply -f -
-    - cat ./k8s/ingress-main.yml | envsubst | kubectl apply -f -
+    - cat ./packages/main/k8s/service-main.yml | envsubst | kubectl apply -f -
+    - cat ./packages/main/k8s/deployment-main.yml | envsubst | kubectl apply -f -
+    - cat ./packages/main/k8s/ingress-main.yml | envsubst | kubectl apply -f -
 
 deploy:dev:
   environment:
