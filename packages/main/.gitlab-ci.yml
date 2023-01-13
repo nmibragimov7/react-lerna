@@ -35,8 +35,6 @@ release:dev:
     CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
   tags:
     - kube-build
-  before_script:
-    - kubectl config use-context autonesie/gitlab-agent:gitlab-agent-k8s-ext-prod
   image: reg.1cb.kz/library/kubectl
   script:
     - ls -a
