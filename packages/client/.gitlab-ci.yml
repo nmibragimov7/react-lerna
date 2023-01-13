@@ -32,8 +32,8 @@ release:dev:
     CONTAINER_TAGGED_IMAGE_CLIENT: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_CLIENT
   tags:
     - kube-build
-  before_script:
-    - kubectl config use-context autonesie/gitlab-agent:gitlab-agent-k8s-ext-prod
+#  before_script:
+#    - kubectl config use-context autonesie/gitlab-agent:gitlab-agent-k8s-ext-prod
   image: reg.1cb.kz/library/kubectl
   script:
     - kubectl create secret docker-registry harbor
