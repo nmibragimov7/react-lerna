@@ -119,7 +119,7 @@ deploy-main:dev:
       --docker-username=$HR_REGISTRY_USER
       --docker-password=$HR_REGISTRY_PASSWORD
       --docker-email=$GITLAB_USER_EMAIL
-      --dry-run=true -o yaml | kubectl replace --force -f -
+      --dry-run=client -o yaml | kubectl replace --force -f -
     - cat ./k8s/service-main.yml | envsubst | kubectl apply -f -
     - cat ./k8s/deployment-main.yml | envsubst | kubectl apply -f -
     - cat ./k8s/ingress-main.yml | envsubst | kubectl apply -f -
@@ -140,7 +140,7 @@ deploy-client:dev:
       --docker-username=$HR_REGISTRY_USER
       --docker-password=$HR_REGISTRY_PASSWORD
       --docker-email=$GITLAB_USER_EMAIL
-      --dry-run=true -o yaml | kubectl replace --force -f -
+      --dry-run=client -o yaml | kubectl replace --force -f -
     - cat ./k8s/service-client.yml | envsubst | kubectl apply -f -
     - cat ./k8s/deployment-client.yml | envsubst | kubectl apply -f -
     - cat ./k8s/ingress-client.yml | envsubst | kubectl apply -f -
