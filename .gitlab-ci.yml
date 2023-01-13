@@ -14,7 +14,7 @@ install_deps:
     expire_in: 15 minute
   script:
     - npm i
-    - ls -a
+    - ls packages/main
 
 trigger_main:
   stage: triggers
