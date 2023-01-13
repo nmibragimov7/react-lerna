@@ -10,8 +10,9 @@ ARG BUILD
 RUN echo $BACKEND_URL
 RUN echo $HOST_CLIENT
 RUN echo $PACKAGE
-RUN echo BUILD
+RUN echo $BUILD
 
 RUN sed -i "s|%%BACKEND_URL%%|${BACKEND_URL}|g" /etc/nginx/conf.d/default.conf
+RUN sed -i "s|%%PACKAGE%%|${PACKAGE}|g" /etc/nginx/conf.d/default.conf
 
-#COPY packages/$PACKAGE/$BUILD/ /var/www/$PACKAGE
+COPY packages/$PACKAGE/$BUILD/ /var/www
