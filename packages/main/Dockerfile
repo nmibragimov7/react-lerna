@@ -6,4 +6,4 @@ ARG BACKEND_URL
 RUN echo $BACKEND_URL
 RUN sed -i "s|%%BACKEND_URL%%|${BACKEND_URL}|g" /etc/nginx/conf.d/default.conf
 
-#COPY builds/abis/demo-deploy/packages/main/build/ /var/www
+COPY packages/main/build/ /var/www
