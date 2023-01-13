@@ -19,7 +19,7 @@ release:dev:
   variables:
     CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
   script:
-    - la -a
+    - ls -a
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$HR_REGISTRY\":{\"username\":\"$HR_REGISTRY_USER\",\"password\":\"$HR_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - KANIKOPROXYBUILDARGS="--build-arg BACKEND_URL=$BACKEND_URL"
