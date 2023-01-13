@@ -20,45 +20,38 @@ install_deps:
     - npm i
 
 .base_build: &base_build
-  image: reg.1cb.kz/dockerhub/library/node:16.17.1-alpine3.15
-  script:
-    - npm run build
-
-build-main:dev:
-  tags:
-    - kube-build
   only:
     - lerna
-  <<: *base_build
-  stage: build-main
+  image: reg.1cb.kz/dockerhub/library/node:16.17.1-alpine3.15
+  tags:
+    - kube-build
   environment:
     name: kyc-staging
-  variables:
-    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_MAIN
-  script:
-    - ls packages/main
   artifacts:
     expire_in: 5 minute
     paths:
       - ./packages/main/build
+      - ./packages/client/dist
+  dependencies:
+    - install_deps
+
+build-main:dev:
+  <<: *base_build
+  stage: build-main
+  variables:
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_MAIN
+  script:
+    - npm run build
+    - ls packages/main
 
 build-client:dev:
-  tags:
-    - kube-build
-  only:
-    - lerna
   <<: *base_build
   stage: build-client
-  environment:
-    name: kyc-staging
   variables:
     CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_CLIENT
   script:
+    - npm run build
     - ls packages/client
-  artifacts:
-    expire_in: 5 minute
-    paths:
-      - ./packages/client/dist
 
 .base_release: &base_release
   image:
