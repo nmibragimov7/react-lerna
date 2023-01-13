@@ -32,8 +32,6 @@ release:dev:
     CONTAINER_TAGGED_IMAGE_MAIN: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_MAIN
   tags:
     - kube-build
-#  before_script:
-#    - kubectl config use-context autonesie/gitlab-agent:gitlab-agent-k8s-ext-prod
   image: reg.1cb.kz/library/kubectl
   script:
     - kubectl create secret docker-registry harbor
@@ -42,9 +40,9 @@ release:dev:
       --docker-password=$HR_REGISTRY_PASSWORD
       --docker-email=$GITLAB_USER_EMAIL
       --dry-run=true -o yaml | kubectl replace --force -f -
-    - cat ./k8s/service.yml | envsubst | kubectl apply -f -
-    - cat ./k8s/deployment.yml | envsubst | kubectl apply -f -
-    - cat ./k8s/ingress.yml | envsubst | kubectl apply -f -
+    - cat $CI_PROJECT_DIR/packages/main/k8s/service.yml | envsubst | kubectl apply -f -
+    - cat $CI_PROJECT_DIR/packages/main/k8s/deployment.yml | envsubst | kubectl apply -f -
+    - cat $CI_PROJECT_DIR/packages/main/k8s/ingress.yml | envsubst | kubectl apply -f -
 
 deploy:dev:
   environment:
