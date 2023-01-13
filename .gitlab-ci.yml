@@ -104,7 +104,7 @@ release-client:dev:
   tags:
     - kube-build
   script:
-    - kubectl create secret docker-registry harbor --docker-server=$HR_REGISTRY --docker-username=$HR_REGISTRY_USER --docker-password=$HR_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL --dry-run=true -o yaml | kubectl replace --force -f -
+    - kubectl create secret docker-registry harbor --docker-server=$HR_REGISTRY --docker-username=$HR_REGISTRY_USER --docker-password=$HR_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL --dry-run=client -o yaml | kubectl replace --force -f -
 
 deploy-main:dev:
   only:
