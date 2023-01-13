@@ -103,6 +103,8 @@ release-client:dev:
   image: reg.1cb.kz/library/kubectl
   tags:
     - kube-build
+  script:
+    - kubectl create secret docker-registry harbor --docker-server=$HR_REGISTRY --docker-username=$HR_REGISTRY_USER --docker-password=$HR_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL --dry-run=true -o yaml | kubectl replace --force -f -
 
 deploy-main:dev:
   only:
@@ -114,7 +116,7 @@ deploy-main:dev:
   environment:
     name: kyc-staging
   script:
-    - kubectl create secret docker-registry harbor --docker-server=$HR_REGISTRY --docker-username=$HR_REGISTRY_USER --docker-password=$HR_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL --dry-run=true -o yaml | kubectl replace --force -f -
+#    - kubectl create secret docker-registry harbor --docker-server=$HR_REGISTRY --docker-username=$HR_REGISTRY_USER --docker-password=$HR_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL --dry-run=true -o yaml | kubectl replace --force -f -
     - cat ./k8s/service-main.yml | envsubst | kubectl apply -f -
     - cat ./k8s/deployment-main.yml | envsubst | kubectl apply -f -
     - cat ./k8s/ingress-main.yml | envsubst | kubectl apply -f -
@@ -130,7 +132,7 @@ deploy-client:dev:
   environment:
     name: kyc-staging
   script:
-    - kubectl create secret docker-registry harbor --docker-server=$HR_REGISTRY --docker-username=$HR_REGISTRY_USER --docker-password=$HR_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL --dry-run=true -o yaml | kubectl replace --force -f -
+#    - kubectl create secret docker-registry harbor --docker-server=$HR_REGISTRY --docker-username=$HR_REGISTRY_USER --docker-password=$HR_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL --dry-run=true -o yaml | kubectl replace --force -f -
     - cat ./k8s/service-client.yml | envsubst | kubectl apply -f -
     - cat ./k8s/deployment-client.yml | envsubst | kubectl apply -f -
     - cat ./k8s/ingress-client.yml | envsubst | kubectl apply -f -
