@@ -40,9 +40,9 @@ release:dev:
       --docker-password=$HR_REGISTRY_PASSWORD
       --docker-email=$GITLAB_USER_EMAIL
       --dry-run=true -o yaml | kubectl replace --force -f -
-    - cat ./packages/main/kk8s/service.yml | envsubst | kubectl apply -f -
-    - cat ./packages/main/kk8s/deployment.yml | envsubst | kubectl apply -f -
-    - cat ./packages/main/kk8s/ingress.yml | envsubst | kubectl apply -f -
+    - cat ./packages/main/k8s/service.yml | envsubst | kubectl apply -f -
+    - cat ./packages/main/k8s/deployment.yml | envsubst | kubectl apply -f -
+    - cat ./packages/main/k8s/ingress.yml | envsubst | kubectl apply -f -
 
 deploy:dev:
   environment:
