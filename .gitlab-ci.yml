@@ -37,7 +37,7 @@ build:dev:
     CONTAINER_TAGGED_IMAGE_CLIENT: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID_CLIENT
   script:
     - npm run build
-    - ls -a
+    - ls packages/main
 
 trigger_main:
   stage: triggers
