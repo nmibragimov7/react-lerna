@@ -43,6 +43,7 @@ build-main:dev:
   script:
     - npm run build
     - ls packages/main
+    - ls packages/main/node_modules
 
 build-client:dev:
   <<: *base_build
@@ -52,6 +53,7 @@ build-client:dev:
   script:
     - npm run build
     - ls packages/client
+    - ls packages/client/node_modules
 
 .base_release: &base_release
   image:
