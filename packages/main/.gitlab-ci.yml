@@ -20,7 +20,7 @@ build:dev:
   variables:
     CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
   script:
-#    - npm run build
+    - npm run build
     - ls -a
 
 .base_release: &base_release
