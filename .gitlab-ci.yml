@@ -25,12 +25,12 @@ trigger_main:
       - "packages/main/**/*"
     refs:
       - /lerna^/
-  script:
-    - ls -a
-    - cat node_modules
-    - cat packages/main/build
-  needs:
-    - project: packages/main/
-      job: install_deps
-      ref: /lerna^/
-      artifacts: true
+#  script:
+#    - ls -a
+#    - cat node_modules
+#    - cat packages/main/build
+#  needs:
+#    - project: packages/main/
+#      job: install_deps
+#      ref: /lerna^/
+#      artifacts: true
