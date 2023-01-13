@@ -16,7 +16,7 @@ install_deps:
     - npm i
     - ls -a
   cache:
-    key: node_modules-cache
+    key: node_modules
     paths:
       - node_modules
 
