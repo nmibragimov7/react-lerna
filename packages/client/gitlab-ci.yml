@@ -1,0 +1,92 @@
+stages:
+  - install
+  - build
+  - release
+  - deploy
+
+install_deps:
+  tags:
+    - kube-build
+  stage: install
+  image: reg.1cb.kz/dockerhub/library/node:16.17.1-alpine3.15
+  artifacts:
+    paths:
+      - node_modules
+    expire_in: 15 minute
+  script:
+    - npm i
+    - ls -a
+
+.base_build: &base_build
+  image: reg.1cb.kz/dockerhub/library/node:16.17.1-alpine3.15
+  artifacts:
+    expire_in: 5 minute
+    paths:
+      - ./packages/client/dist
+
+build:dev:
+  tags:
+    - kube-build
+  only:
+    - /^lerna-.*/
+  <<: *base_build
+  stage: build
+  environment:
+    name: kyc-staging
+  variables:
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
+  script:
+    - npm run build
+    - ls -a
+
+.base_release: &base_release
+  image:
+    name: reg.1cb.kz/library/kaniko-project/executor:debug
+    entrypoint: [""]
+  allow_failure: false
+
+release:dev:
+  tags:
+    - kube-build
+  only:
+    - /^lerna-.*/
+  stage: release
+  environment:
+    name: kyc-staging
+  variables:
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
+  script:
+    - ls -a
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$HR_REGISTRY\":{\"username\":\"$HR_REGISTRY_USER\",\"password\":\"$HR_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - KANIKOPROXYBUILDARGS="--build-arg BACKEND_URL=$BACKEND_URL"
+    - echo $KANIKOPROXYBUILDARGS
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/packages/client/Dockerfile $KANIKOPROXYBUILDARGS --destination $CONTAINER_TAGGED_IMAGE
+  dependencies:
+    - build:dev
+  <<: *base_release
+
+.base_deploy: &base_deploy
+  stage: deploy
+  variables:
+    CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID
+  tags:
+    - kube-build
+  image: reg.1cb.kz/library/kubectl
+  script:
+    - ls -a
+    - kubectl create secret docker-registry harbor --docker-server=$HR_REGISTRY --docker-username=$HR_REGISTRY_USER --docker-password=$HR_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL --dry-run=true -o yaml | kubectl replace --force -f -
+    - cat ./packages/client/k8s/service.yml | envsubst | kubectl apply -f -
+    - cat ./packages/client/k8s/deployment.yml | envsubst | kubectl apply -f -
+    - cat ./packages/client/k8s/ingress.yml | envsubst | kubectl apply -f -
+
+deploy:dev:
+  environment:
+    name: kyc-staging
+  dependencies: []
+  variables:
+    REPLICAS: 1
+  only:
+    refs:
+      - /^lerna-.*/
+  <<: *base_deploy
