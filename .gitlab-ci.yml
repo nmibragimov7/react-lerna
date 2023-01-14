@@ -16,8 +16,8 @@ trigger_client:
   trigger:
     include: packages/client/.gitlab-ci.yml
   only:
-    changes:
-      - "packages/client/**/*"
+#    changes:
+#      - "packages/client/**/*"
     refs:
       - /^lerna-.*/
   when: manual
