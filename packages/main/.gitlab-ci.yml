@@ -62,10 +62,6 @@ release:dev:
     - KANIKOPROXYBUILDARGS="--build-arg BACKEND_URL=$BACKEND_URL"
     - echo $KANIKOPROXYBUILDARGS
     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/packages/main/Dockerfile $KANIKOPROXYBUILDARGS --destination $CONTAINER_TAGGED_IMAGE
-  cache:
-    key: node_modules
-    paths:
-      - node_modules
   dependencies:
     - build:dev
   <<: *base_release
