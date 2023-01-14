@@ -76,9 +76,9 @@ release:dev:
   script:
     - ls -a
     - kubectl create secret docker-registry harbor --docker-server=$HR_REGISTRY --docker-username=$HR_REGISTRY_USER --docker-password=$HR_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL --dry-run=true -o yaml | kubectl replace --force -f -
-    - cat ./packages/main/k8s/service-main.yml | envsubst | kubectl apply -f -
-    - cat ./packages/main/k8s/deployment-main.yml | envsubst | kubectl apply -f -
-    - cat ./packages/main/k8s/ingress-main.yml | envsubst | kubectl apply -f -
+    - cat ./packages/main/k8s/service.yml | envsubst | kubectl apply -f -
+    - cat ./packages/main/k8s/deployment.yml | envsubst | kubectl apply -f -
+    - cat ./packages/main/k8s/ingress.yml | envsubst | kubectl apply -f -
 
 deploy:dev:
   environment:

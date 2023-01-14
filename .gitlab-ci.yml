@@ -10,3 +10,13 @@ trigger_main:
       - "packages/main/**/*"
     refs:
       - /^lerna-.*/
+
+trigger_client:
+  stage: triggers
+  trigger:
+    include: packages/client/.gitlab-ci.yml
+  only:
+    changes:
+      - "packages/client/**/*"
+    refs:
+      - /^lerna-.*/
