@@ -10,7 +10,6 @@ trigger_main:
       - "packages/main/**/*"
     refs:
       - /^lerna-.*/
-  when: manual
 
 trigger_client:
   stage: triggers
