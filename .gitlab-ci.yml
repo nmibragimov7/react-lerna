@@ -20,6 +20,6 @@ trigger_client:
 #      - "packages/client/**/*"
     refs:
       - /^lerna-.*/
-#  when: manual
-  needs: [ "trigger_main" ]
-  when: on_failure
+  when: manual
+#  needs: [ "trigger_main" ]
+#  when: on_failure
