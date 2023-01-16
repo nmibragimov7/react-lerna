@@ -32,7 +32,7 @@ build:dev:
   <<: *base_build
   stage: build
   environment:
-    name: kyc-staging
+    name: k09-staging
   variables:
     CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID-main
   script:
@@ -52,7 +52,7 @@ release:dev:
     - /^lerna-.*/
   stage: release
   environment:
-    name: kyc-staging
+    name: k09-staging
   variables:
     CONTAINER_TAGGED_IMAGE: $HR_REGISTRY/$CI_PROJECT_NAME-$CI_PROJECT_ID/$CI_PROJECT_NAME:$CI_ENVIRONMENT_SLUG-$CI_PIPELINE_ID-main
   script:
@@ -83,7 +83,7 @@ release:dev:
 
 deploy:dev:
   environment:
-    name: kyc-staging
+    name: k09-staging
   dependencies: []
   variables:
     REPLICAS: 1
