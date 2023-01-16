@@ -30,7 +30,7 @@ const SignIn: React.FC<IProps> = ({ setState }) => {
             formik.resetForm();
             setState(false);
             let link = document.createElement("a");
-            response.data.role === "manager" ? link.href = "http://localhost:5000" : link.href = "http://localhost:4200";
+            response.data.role === "manager" ? link.href = process.env.REACT_APP_HOST_MANAGER || "http://localhost:5000" : link.href = process.env.REACT_APP_HOST_CLIENT || "http://localhost:4200";
             link.click();
         }
     });
@@ -40,11 +40,12 @@ const SignIn: React.FC<IProps> = ({ setState }) => {
             <p className={"text-center text-2xl text-dark mb-4"}>Авторизоваться</p>
             <div className={styles.SignIn}>
                 <a
-                    href="http://localhost:4200"
+                    href={process.env.REACT_APP_HOST_CLIENT || "http://localhost:4200"}
                     className={"w-full text-center shadow px-4 py-2 bg-green text-light-blue hover:green/70"}
                 >Клиент</a>
+                {process.env.REACT_APP_HOST_MANAGER}
                 <a
-                    href="http://localhost:5000"
+                    href={process.env.REACT_APP_HOST_MANAGER || "http://localhost:5000"}
                     className={"w-full text-center shadow px-4 py-2 bg-red text-light-blue hover:bg-red/70"}
                 >Менеджер</a>
             </div>

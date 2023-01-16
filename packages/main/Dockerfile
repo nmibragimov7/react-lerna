@@ -5,6 +5,11 @@ COPY packages/main/nginx.conf /etc/nginx/conf.d/default.conf
 
 ARG BACKEND_URL
 RUN echo $BACKEND_URL
+ARG HOST_CLIENT
+ENV REACT_APP_HOST_CLIENT $HOST_CLIENT
+
+RUN cat builds/devops/public/demo-deploy/.env
+
 RUN sed -i "s|%%BACKEND_URL%%|${BACKEND_URL}|g" /etc/nginx/conf.d/default.conf
 
 COPY packages/main/build/ /var/www
