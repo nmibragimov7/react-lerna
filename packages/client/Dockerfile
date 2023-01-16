@@ -1,5 +1,5 @@
 FROM reg.1cb.kz/dockerhub/library/nginx:1.19-alpine
-RUN ls builds/abis/demo-deploy/packages/client
+RUN ls builds
 COPY packages/client/nginx.conf /etc/nginx/conf.d/default.conf
 
 #ARG BACKEND_URL
