@@ -25,7 +25,8 @@ spec:
           livenessProbe:
             httpGet:
               path: /healthz/
-              port: ${APP_PORT}
+#              port: ${APP_PORT}
+              port: 80
             failureThreshold: 30
             periodSeconds: 10
             timeoutSeconds: 5
