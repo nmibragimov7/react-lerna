@@ -20,7 +20,8 @@ spec:
         - name: ${CI_PROJECT_NAME}-main
           image: ${CONTAINER_TAGGED_IMAGE}-main
           ports:
-            - containerPort: ${APP_PORT}
+#            - containerPort: ${APP_PORT}
+            - containerPort: 80
           livenessProbe:
             httpGet:
               path: /healthz/

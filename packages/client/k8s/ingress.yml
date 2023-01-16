@@ -20,4 +20,5 @@ spec:
               service:
                 name: $CI_PROJECT_NAME-client
                 port:
-                  number: ${APP_PORT}
+#                  number: ${APP_PORT}
+                  number: 80
