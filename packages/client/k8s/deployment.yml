@@ -20,13 +20,13 @@ spec:
         - name: ${CI_PROJECT_NAME}-client
           image: ${CONTAINER_TAGGED_IMAGE}-client
           ports:
-#            - containerPort: ${APP_PORT}
-              containerPort: 80
+            - containerPort: ${APP_PORT}
+#              containerPort: 80
           livenessProbe:
             httpGet:
               path: /healthz/
-#              port: ${APP_PORT}
-              port: 80
+              port: ${APP_PORT}
+#              port: 80
             failureThreshold: 30
             periodSeconds: 10
             timeoutSeconds: 5

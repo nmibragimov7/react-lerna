@@ -20,5 +20,5 @@ spec:
               service:
                 name: $CI_PROJECT_NAME-main
                 port:
-#                  number: ${APP_PORT}
-                  number: 80
+                  number: ${APP_PORT}
+#                  number: 80
