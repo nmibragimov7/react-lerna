@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Description from "@monorepo/shared/src/components/Description";
+import {Description} from "@monorepo/shared/src";
 
 const Main = () => {
 

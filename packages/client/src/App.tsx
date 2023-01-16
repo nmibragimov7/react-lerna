@@ -11,7 +11,7 @@ import Sidebar from "./layout/Sidebar";
 import Main from "./pages/Main";
 import Goods from "./pages/Goods";
 import Basket from "./components/Basket/Basket";
-import BaseToasts from "@monorepo/shared/src/components/base/BaseToasts/BaseToasts";
+import {Toasts} from "@monorepo/shared/src";
 
 function App() {
     const [state, setState] = useState(false);
@@ -30,7 +30,7 @@ function App() {
 
     return (
         <>
-            <BaseToasts />
+            <Toasts />
             <RouterProvider router={router}/>
             <Sidebar shown={state} setState={setState}>
                 <Basket />

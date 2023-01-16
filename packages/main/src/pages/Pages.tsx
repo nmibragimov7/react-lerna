@@ -10,7 +10,7 @@ import Main from "./Main";
 import Todos from "./Todos";
 import SignIn from "../components/SignIn/SignIn";
 import Header from "../layout/Header";
-import BaseToasts from "@monorepo/shared/src/components/base/BaseToasts/BaseToasts";
+import {Toasts} from "@monorepo/shared/src";
 import {useUser} from "../store";
 
 const Pages = () => {
@@ -42,7 +42,7 @@ const Pages = () => {
 
     return (
         <>
-            <BaseToasts />
+            <Toasts />
             <RouterProvider router={router}/>
         </>
     );

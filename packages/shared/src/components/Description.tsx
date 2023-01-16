@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-const Description = () => {
+export const Description = () => {
     const [shown, setShown] = useState<number | null>(null);
     const [shownCraco, setShownCraco] = useState<boolean>(false);
     const shownHandler = (value: number): void => {
@@ -186,5 +186,3 @@ const Description = () => {
         </ul>
     );
 };
-
-export default Description;

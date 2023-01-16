@@ -4,10 +4,9 @@ import {useFormik} from "formik";
 
 import Sidebar from "../layout/Sidebar";
 import Todo from "../components/Todo/Todo";
-import BaseButton from "@monorepo/shared/src/components/base/BaseButton/BaseButton";
-import BaseInput from "@monorepo/shared/src/components/base/BaseInput/BaseInput";
 import {useTodos} from "../store";
 import {TodoProps} from "../model/types";
+import {Button, Input} from "@monorepo/shared/src";
 import {toast} from "@monorepo/shared/src/components/base/BaseToasts/BaseToasts";
 
 const Todos = () => {
@@ -42,9 +41,9 @@ const Todos = () => {
             </p>
             <div className={"container mx-auto min-h-[40vh] py-8"}>
                 <div className={"flex justify-center"}>
-                    <BaseButton disabled={loading} className={"!bg-gray-100 !text-dark max-w-xs mx-auto mb-8"} onClick={fetchData}>
+                    <Button disabled={loading} className={"!bg-gray-100 !text-dark max-w-xs mx-auto mb-8"} onClick={fetchData}>
                         {!error ? "Получить todos" : error}
-                    </BaseButton>
+                    </Button>
                 </div>
                 <div className={"flex flex-col gap-2 max-w-md mx-auto"}>
                     {todos.map((todo: TodoProps) => (
@@ -55,20 +54,22 @@ const Todos = () => {
             <div className={"w-full h-px bg-gray-100"}/>
             <div className={"max-w-3xl mx-auto min-h-[30vh] py-8 flex flex-col items-center"}>
                 <div className={"text-center font-bold text-dark mb-4"}>Количество todos: { count }</div>
-                <BaseButton
+                <Button
                     className={"mb-8 max-w-xs !bg-green !text-white"}
                     onClick={() => setShown(true)}
-                >Добавить todo</BaseButton>
+                >
+                    Добавить todo
+                </Button>
             </div>
             <Sidebar shown={shown} setState={setShown}>
                 <div className={"flex flex-col gap-4"}>
-                    <BaseInput
+                    <Input
                         name={"title"}
                         value={formik.values.title}
                         placeholder={"Напишите заголовок..."}
                         onChange={formik.handleChange}
                     />
-                    <BaseButton onClick={formik.handleSubmit}>Добавить</BaseButton>
+                    <Button onClick={formik.handleSubmit}>Добавить</Button>
                 </div>
             </Sidebar>
         </>

@@ -3,8 +3,8 @@ import {useFormik} from "formik";
 
 import {useUser} from "../../store";
 import {SignInProps} from "../../model/types";
-import {toast} from "@monorepo/shared/src/components/base/BaseToasts/BaseToasts";
 import styles from "./SignIn.module.scss";
+import {toast} from "@monorepo/shared/src/components/base/BaseToasts/BaseToasts";
 
 interface IProps {
     setState: (value: boolean) => void;

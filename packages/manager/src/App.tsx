@@ -1,14 +1,14 @@
 import React from "react";
 import * as yup from "yup";
 
-import BaseButton from "@monorepo/shared/src/components/base/BaseButton/BaseButton";
+import { Button } from "@monorepo/shared/src";
 
 function App() {
     console.log(yup)
 
     return (
         <>
-            <BaseButton>App</BaseButton>
+            <Button>App</Button>
         </>
     )
 }

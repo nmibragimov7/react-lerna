@@ -1,8 +1,7 @@
 import React, {ReactNode} from 'react';
 import {Link, Outlet} from "react-router-dom";
 
-import BaseButton from "@monorepo/shared/src/components/base/BaseButton/BaseButton";
-import BaseModal from "@monorepo/shared/src/components/base/BaseModal/BaseModal";
+import {Button, Modal} from "@monorepo/shared/src";
 
 interface IProps {
     isAuth?: boolean;
@@ -35,17 +34,17 @@ const Header: React.FC<IProps> = ({
                         <Link to={"/"} className={"font-bold text-primary-blue hover:text-orange underline"}>Главная</Link>
                         <Link to={"/todos"} className={"font-bold text-primary-blue hover:text-orange underline"}>Todos</Link>
                     </div>
-                    <BaseButton
+                    <Button
                         className={"max-w-[200px]"}
                         onClick={buttonHandler}
                     >
                         {isAuth ? "Выйти" : "Авторизация"}
-                    </BaseButton>
+                    </Button>
                 </div>
             </div>
-            <BaseModal state={state} setState={setState}>
+            <Modal state={state} setState={setState}>
                 {children}
-            </BaseModal>
+            </Modal>
             <div className={"container mx-auto py-8"}>
                 <Outlet />
             </div>

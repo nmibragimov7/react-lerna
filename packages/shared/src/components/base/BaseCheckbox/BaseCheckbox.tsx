@@ -1,16 +1,16 @@
-import React from 'react';
+import React, {memo} from 'react';
 
 import styles from './BaseCheckbox.module.scss';
 
 interface IProps {
     name: string;
     className?: string;
-    children: React.ReactNode;
+    children: string;
     value: boolean;
     setValue: (value: boolean) => void;
 }
 
-const BaseCheckbox: React.FC<IProps> = (props) => {
+const BaseCheckbox: React.FC<IProps> = memo((props) => {
     const {
         name,
         className,
@@ -42,6 +42,6 @@ const BaseCheckbox: React.FC<IProps> = (props) => {
             </label>
         </div>
     );
-};
+});
 
 export default BaseCheckbox;

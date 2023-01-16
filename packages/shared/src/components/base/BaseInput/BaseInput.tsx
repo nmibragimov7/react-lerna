@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, memo} from 'react';
 
 import styles from './BaseInput.module.scss';
 
@@ -11,7 +11,7 @@ interface IProps {
     className?: string;
 }
 
-const BaseInput: React.FC<IProps> = (props) => {
+const BaseInput: React.FC<IProps> = memo((props) => {
     const {
         name,
         value,
@@ -34,6 +34,6 @@ const BaseInput: React.FC<IProps> = (props) => {
             />
         </>
     );
-};
+});
 
 export default BaseInput;

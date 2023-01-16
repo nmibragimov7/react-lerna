@@ -1,12 +1,11 @@
 import React from 'react';
 import {observer} from "mobx-react-lite";
 
-import {classes} from "@monorepo/shared/src/core/helpers/classes";
 import {Good} from "../../store/goods";
 import basketStore from "../../store/basket";
-import {toast} from "@monorepo/shared/src/components/base/BaseToasts/BaseToasts";
-import close from "@monorepo/shared/src/static/images/close.svg";
 import styles from "./Basket.module.scss";
+import {classes, close} from "@monorepo/shared/src";
+import {toast} from "@monorepo/shared/src/components/base/BaseToasts/BaseToasts";
 
 const Basket: React.FC = observer(() => {
     const goods = basketStore.goods;

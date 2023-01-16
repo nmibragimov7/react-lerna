@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {classes} from "@monorepo/shared/src/core/helpers/classes";
-import close from '@monorepo/shared/src/static/images/close.svg';
+import {classes, close} from "@monorepo/shared/src";
 
 interface IProps {
     shown: boolean;

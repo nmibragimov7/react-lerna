@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useId, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
 import {classes} from "../../../core/helpers/classes";
 import styles from "./BaseToasts.module.scss";
@@ -71,6 +71,7 @@ const BaseToasts = () => {
                 showToast(message, 'warning');
             }
         }
+
     }, [toast]);
 
     return (
