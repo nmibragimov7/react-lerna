@@ -75,7 +75,7 @@ release:dev:
   image: reg.1cb.kz/library/kubectl
   script:
     - ls -a
-    - kubectl create secret docker-registry harbor --docker-server=$HR_REGISTRY --docker-username=$HR_REGISTRY_USER --docker-password=$HR_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL --dry-run=true -o yaml | kubectl replace --force -f -
+    - kubectl create secret docker-registry harbor --docker-server=$HR_REGISTRY --docker-username=$HR_REGISTRY_USER --docker-password=$HR_REGISTRY_PASSWORD --docker-email=$GITLAB_USER_EMAIL --dry-run=client -o yaml | kubectl replace --force -f -
     - cat ./packages/client/k8s/service.yml | envsubst | kubectl apply -f -
     - cat ./packages/client/k8s/deployment.yml | envsubst | kubectl apply -f -
     - cat ./packages/client/k8s/ingress.yml | envsubst | kubectl apply -f -
