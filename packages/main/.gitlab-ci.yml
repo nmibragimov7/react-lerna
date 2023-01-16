@@ -60,7 +60,6 @@ release:dev:
     - mkdir -p /kaniko/.docker
     - echo "{\"auths\":{\"$HR_REGISTRY\":{\"username\":\"$HR_REGISTRY_USER\",\"password\":\"$HR_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
     - KANIKOPROXYBUILDARGS="--build-arg BACKEND_URL=$BACKEND_URL"
-    - KANIKOPROXYBUILDARGS=""
     - echo $KANIKOPROXYBUILDARGS
     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/packages/main/Dockerfile $KANIKOPROXYBUILDARGS --destination $CONTAINER_TAGGED_IMAGE-main
   dependencies:
