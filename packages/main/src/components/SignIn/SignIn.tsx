@@ -34,6 +34,8 @@ const SignIn: React.FC<IProps> = ({ setState }) => {
             link.click();
         }
     });
+    console.log(process.env.REACT_APP_HOST_MANAGER)
+    console.log(process.env.REACT_APP_HOST_CLIENT)
 
     return (
         <>
@@ -43,7 +45,6 @@ const SignIn: React.FC<IProps> = ({ setState }) => {
                     href={process.env.REACT_APP_HOST_CLIENT || "http://localhost:4200"}
                     className={"w-full text-center shadow px-4 py-2 bg-green text-light-blue hover:green/70"}
                 >Клиент</a>
-                {process.env.REACT_APP_HOST_MANAGER}
                 <a
                     href={process.env.REACT_APP_HOST_MANAGER || "http://localhost:5000"}
                     className={"w-full text-center shadow px-4 py-2 bg-red text-light-blue hover:bg-red/70"}
