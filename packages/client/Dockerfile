@@ -1,5 +1,6 @@
 FROM reg.1cb.kz/dockerhub/library/nginx:1.19-alpine
-RUN ls builds/devops
+RUN ls -a
+RUN ls builds/devops/public
 COPY packages/client/nginx.conf /etc/nginx/conf.d/default.conf
 
 ARG BACKEND_URL
