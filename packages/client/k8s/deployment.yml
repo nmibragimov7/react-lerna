@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: $CI_PROJECT_NAME
+  name: $CI_PROJECT_NAME-client
   labels:
     maintainer: ${GITLAB_USER_LOGIN}
-    app: $CI_PROJECT_NAME
+    app: $CI_PROJECT_NAME-client
 spec:
   selector:
     matchLabels:
-      app: $CI_PROJECT_NAME
+      app: $CI_PROJECT_NAME-client
   replicas: 1
   template:
     metadata:
       labels:
         maintainer: ${GITLAB_USER_LOGIN}
-        app: $CI_PROJECT_NAME
+        app: $CI_PROJECT_NAME-client
     spec:
       containers:
-        - name: ${CI_PROJECT_NAME}
-          image: ${CONTAINER_TAGGED_IMAGE}
+        - name: ${CI_PROJECT_NAME}-client
+          image: ${CONTAINER_TAGGED_IMAGE}-client
           ports:
             - containerPort: ${APP_PORT}
           livenessProbe:
@@ -29,4 +29,4 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
       imagePullSecrets:
-        - name: harbor-$CI_PROJECT_ID
+        - name: harbor
