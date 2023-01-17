@@ -72,7 +72,7 @@ const BaseToasts: React.FC = () => {
             }
         }
 
-    }, [toast, showToast]);
+    }, [showToast]);
 
     return (
         <div className={classes(styles.BaseToasts)}>

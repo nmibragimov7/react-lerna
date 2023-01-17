@@ -1,5 +1,3 @@
-import React from 'react';
-
 import BaseButton from "./components/base/BaseButton/BaseButton";
 import BaseInput from "./components/base/BaseInput/BaseInput";
 import BaseCheckbox from "./components/base/BaseCheckbox/BaseCheckbox";
