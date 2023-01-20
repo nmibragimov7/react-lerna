@@ -22,7 +22,7 @@
     "zustand": "^4.2.0"
   },
   "scripts": {
-    "start": "REACT_APP_HOST_CLIENT=https://demo-deploy-client.1cb.kz REACT_APP_HOST_MANAGER=https://demo-deploy-manager.1cb.kz craco start",
+    "start": "craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject"
