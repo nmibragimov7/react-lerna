@@ -26,7 +26,7 @@ export const Description = () => {
                 shown === 1 && <li>
                     <div className={"ml-4"}>
                         <p className={"text-red font-bold"}>"dependencies": [</p>
-                        <p className={"ml-4"}>"@monorepo/shared": "*", <span className={"text-gray-300"}>// пакет shared</span></p>
+                        <p className={"ml-4"}>"@monorepo/shared": "*", <span className={"text-gray-300"}>- пакет shared</span></p>
                         <p className={"ml-4"}>"axios": "^1.2.2",</p>
                         <p className={"ml-4"}>"formik": "^2.2.9",</p>
                         <p className={"ml-4"}>"react": "^18.2.0",</p>
@@ -42,7 +42,7 @@ export const Description = () => {
                             className={"text-red hover:text-red/70 font-bold cursor-pointer ml-4"}
                             onClick={() => setShownCraco(!shownCraco)}
                         >
-                            "@craco/craco": "^7.0.0", <span className={"text-gray-300"}>// библиотека для настройки конфигурации ESLint, Babel, PostCSS и многое другое</span>
+                            "@craco/craco": "^7.0.0", <span className={"text-gray-300"}>- библиотека для настройки конфигурации ESLint, Babel, PostCSS и многое другое</span>
                         </p>
                         {
                             shownCraco && <div className={"shadow-gray-100 bg-white-blue p-4 my-4 ml-12"}>
@@ -114,7 +114,7 @@ export const Description = () => {
                 shown === 2 && <li>
                     <div className={"ml-4"}>
                         <p className={"text-red font-bold"}>"dependencies": [</p>
-                        <p className={"ml-4"}>"@monorepo/shared": "*", <span className={"text-gray-300"}>// пакет shared</span></p>
+                        <p className={"ml-4"}>"@monorepo/shared": "*", <span className={"text-gray-300"}>- пакет shared</span></p>
                         <p className={"ml-4"}>"axios": "^1.2.2",</p>
                         <p className={"ml-4"}>"formik": "^2.2.9",</p>
                         <p className={"ml-4"}>"react": "^18.2.0",</p>

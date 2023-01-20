@@ -36,7 +36,7 @@ const BaseToast: React.FC<IProps> = ({
     )
 }
 
-const BaseToasts = () => {
+const BaseToasts: React.FC = () => {
     const [toasts, setToasts] = useState<Toast[]>([]);
     const showToast = useCallback((title: string, type?: string) => {
         const newToast = {
@@ -52,7 +52,7 @@ const BaseToasts = () => {
         setTimeout(() => {
             setToasts(prev => prev.filter(toast => toast.id !== newToast.id));
         }, DELAY);
-    }, [toast]);
+    }, []);
     const removeToast = (id: string) => {
         setToasts(prev => prev.filter(toast => toast.id !== id));
     }
@@ -72,7 +72,7 @@ const BaseToasts = () => {
             }
         }
 
-    }, [toast]);
+    }, [showToast]);
 
     return (
         <div className={classes(styles.BaseToasts)}>
