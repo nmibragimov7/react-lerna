@@ -38,7 +38,6 @@ const Goods: React.FC = () => {
             const response: any = await dispatch(editGood({
                 ...values
             }));
-            console.log(response)
             if (response.payload.status === 200) {
                 setState(false);
                 toast.success(response.payload.data.message);

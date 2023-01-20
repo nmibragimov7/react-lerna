@@ -8,7 +8,6 @@ export const getGoods = createAsyncThunk<Good[]>(
     'goods/getGoods',
     async (_, thunkAPI) => {
         try {
-            console.log('kek')
             const response = await axios.get<Good[]>('http://localhost:8000/goods');
             thunkAPI.dispatch(goodsActions.setGoods(response.data));
 
