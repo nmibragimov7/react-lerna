@@ -71,7 +71,6 @@ server.put('/todos/:id', (req, res) => {
 });
 server.post('/todos', (req, res) => {
     try {
-        console.log(req.body)
         let db = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'db.json'), 'UTF-8'));
         const { todos = [] } = db;
         todos.push({
@@ -93,6 +92,53 @@ server.get('/goods', (req, res) => {
         const { goods = [] } = db;
 
         return res.json(goods);
+    } catch (e) {
+        return res.status(500).json({ message: e.message });
+    }
+});
+server.post('/goods', (req, res) => {
+    try {
+        let db = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'db.json'), 'UTF-8'));
+        const { goods = [] } = db;
+        goods.push({
+            id: goods.length + 1,
+            title: req.body.title,
+            image: req.body.image,
+            description: req.body.description,
+            price: req.body.price,
+        });
+        db.goods = [...goods];
+        fs.writeFileSync(path.resolve(__dirname, 'db.json'), JSON.stringify(db));
+
+        return res.json(db.goods);
+    } catch (e) {
+        return res.status(500).json({ message: e.message });
+    }
+});
+server.put('/goods/:id', (req, res) => {
+    try {
+        let db = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'db.json'), 'UTF-8'));
+        const { goods = [] } = db;
+
+        const good = goods.find(
+            (good) => good.id === parseInt(req.params?.id)
+        );
+        if (!good) {
+            return res.status(404).json({ message: 'Запись не найдена' });
+        }
+
+        db.goods = goods.map(good => good.id === parseInt(req.params?.id)
+            ? {
+                ...good,
+                title: req.body.title,
+                image: req.body.image,
+                description: req.body.description,
+                price: req.body.price
+            }
+            : good);
+        fs.writeFileSync(path.resolve(__dirname, 'db.json'), JSON.stringify(db));
+
+        return res.json({ message: 'Запись успешно отредактирована' });
     } catch (e) {
         return res.status(500).json({ message: e.message });
     }

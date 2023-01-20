@@ -17,6 +17,7 @@
     "build:client": "npx lerna run build --scope=@monorepo/client"
   },
   "dependencies": {
+    "sass": "^1.57.1",
     "yup": "^0.32.11"
   }
 }

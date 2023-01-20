@@ -139,7 +139,46 @@ export const Description = () => {
                 </li>
             }
             <li onClick={() => shownHandler(3)}>
-                3. <span className={"cursor-pointer font-bold text-primary-blue hover:text-primary-blue/70"}>Пакет @monorepo/shared:</span>
+                3. <span className={"cursor-pointer font-bold text-primary-blue hover:text-primary-blue/70"}>Пакет @monorepo/manager:</span>
+            </li>
+            <li>
+                <div className={"text-sm text-gray-500 ml-4"}>
+                    <p>React проект</p>
+                    <p>Проиницилизирован с помощью npm create vite@latest</p>
+                    <p>Запускается на localhost:5000</p>
+                    <p>Реализован <span className={"font-bold text-green"}>динамичный Reducer</span></p>
+                </div>
+            </li>
+            {
+                shown === 3 && <li>
+                    <div className={"ml-4"}>
+                        <p className={"text-red font-bold"}>"dependencies": [</p>
+                        <p className={"ml-4"}>"@monorepo/shared": "*", <span className={"text-gray-300"}>- пакет shared</span></p>
+                        <p className={"ml-4"}>"@reduxjs/toolkit": "^1.8.5",</p>
+                        <p className={"ml-4"}>"axios": "^1.2.2",</p>
+                        <p className={"ml-4"}>"formik": "^2.2.9",</p>
+                        <p className={"ml-4"}>"react": "^18.2.0",</p>
+                        <p className={"ml-4"}>"react-dom": "^18.2.0",</p>
+                        <p className={"ml-4"}>"react-redux": "^8.0.2",</p>
+                        <p className={"ml-4"}>"react-router-dom": "^6.6.2",</p>
+                        <p>]</p>
+                    </div>
+                    <div className={"ml-4"}>
+                        <p className={"text-red font-bold"}>"devDependencies": [</p>
+                        <p className={"ml-4"}>"@types/react": "^18.0.26",</p>
+                        <p className={"ml-4"}>"@types/react-dom": "^18.0.9",</p>
+                        <p className={"ml-4"}>"@vitejs/plugin-react": "^3.0.0",</p>
+                        <p className={"ml-4"}>"autoprefixer": "^10.4.13",</p>
+                        <p className={"ml-4"}>"postcss": "^8.4.20",</p>
+                        <p className={"ml-4"}> "tailwindcss": "^3.2.4",</p>
+                        <p className={"ml-4"}>"typescript": "^4.9.3",</p>
+                        <p className={"ml-4"}>"vite": "^4.0.0"</p>
+                        <p>]</p>
+                    </div>
+                </li>
+            }
+            <li onClick={() => shownHandler(4)}>
+                4. <span className={"cursor-pointer font-bold text-primary-blue hover:text-primary-blue/70"}>Пакет @monorepo/shared:</span>
             </li>
             <div className={"text-sm text-gray-500 ml-4"}>
                 <p>React проект</p>
@@ -147,7 +186,7 @@ export const Description = () => {
                 <p>Сожержить base компоненты, хелперы, хуки</p>
             </div>
             {
-                shown === 3 && <li>
+                shown === 4 && <li>
                     <div className={"ml-4"}>
                         <p className={"text-red font-bold"}>"dependencies": [</p>
                         <p className={"ml-4"}>"react": "^18.2.0",</p>
@@ -164,8 +203,8 @@ export const Description = () => {
                     </div>
                 </li>
             }
-            <li onClick={() => shownHandler(4)}>
-                4. <span className={"cursor-pointer font-bold text-primary-blue hover:text-primary-blue/70"}>Пакет @monorepo/server:</span>
+            <li onClick={() => shownHandler(5)}>
+                5. <span className={"cursor-pointer font-bold text-primary-blue hover:text-primary-blue/70"}>Пакет @monorepo/server:</span>
             </li>
             <li>
                 <div className={"text-sm text-gray-500 ml-4"}>
@@ -174,7 +213,7 @@ export const Description = () => {
                 </div>
             </li>
             {
-                shown === 4 && <li>
+                shown === 5 && <li>
                     <div className={"ml-4"}>
                         <p className={"text-red font-bold"}>"devDependencies": [</p>
                         <p className={"ml-4"}>"json-server": "^0.17.1",</p>

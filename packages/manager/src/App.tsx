@@ -1,14 +1,37 @@
-import React from "react";
-import * as yup from "yup";
+import React, {useState} from "react";
+import {
+    Route,
+    createBrowserRouter,
+    createRoutesFromElements,
+    RouterProvider
+} from "react-router-dom"
 
-import { Button } from "@monorepo/shared/src";
+import Header from "./layout/Header";
+import Main from "./pages/Main";
+import Goods from "./pages/Goods";
+import {StoreProvider} from "./components/StoreProvider";
+import {Toasts} from "@monorepo/shared/src";
 
 function App() {
-    console.log(yup)
+    const router = createBrowserRouter(createRoutesFromElements(
+        <>
+            <Route
+                path={"/"}
+                element={<Header />}
+            >
+                <Route index element={<Main />} />
+                <Route path={"goods"} element={<Goods />} />
+                <Route path={"*"} element={<Main />} />
+            </Route>
+        </>
+    ));
 
     return (
         <>
-            <Button>App</Button>
+            <StoreProvider>
+                <Toasts />
+                <RouterProvider router={router}/>
+            </StoreProvider>
         </>
     )
 }
