@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-import {createReducerManager} from "@monorepo/manager/src/core/config/reducerManager";
-import {ReducerManager, StateSchema, StateSchemaKey} from "@monorepo/manager/src/core/config/stateSchema";
 
 export const Description = () => {
     const [shown, setShown] = useState<number | null>(null);
