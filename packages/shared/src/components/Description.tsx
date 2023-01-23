@@ -1,14 +1,17 @@
 import React, {useState} from 'react';
+import {createReducerManager} from "@monorepo/manager/src/core/config/reducerManager";
+import {ReducerManager, StateSchema, StateSchemaKey} from "@monorepo/manager/src/core/config/stateSchema";
 
 export const Description = () => {
     const [shown, setShown] = useState<number | null>(null);
     const [shownCraco, setShownCraco] = useState<boolean>(false);
+    const [shownReducerManager, setShownReducerManager] = useState<boolean>(false);
     const shownHandler = (value: number): void => {
         value === shown ? setShown(null) : setShown(value);
     }
 
     return (
-        <ul className={"max-w-4xl mx-auto"}>
+        <ul className={"max-w-5xl mx-auto"}>
             <li className={"text-xl font-bold mb-4"}>
                 Монорепо проект разработан с помощью <a href="https://lerna.js.org/" className={"text-primary-blue hover:text-primary-blue/70 font-bold"}>lerna</a>:
             </li>
@@ -146,7 +149,56 @@ export const Description = () => {
                     <p>React проект</p>
                     <p>Проиницилизирован с помощью npm create vite@latest</p>
                     <p>Запускается на localhost:5000</p>
-                    <p>Реализован <span className={"font-bold text-green"}>динамичный Reducer</span></p>
+                    <p>Реализован <span className={"font-bold text-green hover:text-green/70 cursor-pointer"} onClick={() => setShownReducerManager(!shownReducerManager)}>dynamic Reducer</span></p>
+                    {
+                        shownReducerManager && <div className={"shadow-gray-100 bg-white-blue p-4 my-4 ml-12"}>
+                            <code>
+                                <span className={"font-bold text-orange"}>import</span> [<span className={"font-bold text-primary-blue"}>AnyAction, combineReducers, Reducer, ReducersMapObject</span>] <span className={"font-bold text-orange"}>from </span>(<span className={"font-bold text-green"}>"@reduxjs/toolkit"</span>);
+                                <br/>
+                                <span className={"font-bold text-orange"}>import</span> [<span className={"font-bold text-primary-blue"}>ReducerManager, StateSchema, StateSchemaKey</span>] <span className={"font-bold text-orange"}>from </span>(<span className={"font-bold text-green"}>"./stateSchema"</span>);
+                                <br/>
+                                <br/>
+                                <span className={"font-bold text-orange"}>export function</span> <span className={"font-bold text-primary-blue"}>createReducerManager</span> (initialReducers: ReducersMapObject|StateSchema|): ReducerManager [
+                                <br/>
+                                <div className={"ml-4"}>
+                                    <span className={"font-bold text-orange"}>const</span> reducers = [...initialReducers];
+                                    <br/>
+                                    <span className={"font-bold text-orange"}>let</span> combinedReducer = <span className={"font-bold text-primary-blue"}>combineReducers</span>(reducers);
+                                    <br/>
+                                    <span className={"font-bold text-orange"}>let</span> keysToRemove: Array|StateSchemaKey| = [];
+                                    <br/>
+                                    <br/>
+                                    <span className={"font-bold text-orange"}>return</span> [
+                                    <br/>
+                                    <div className={"ml-4"}>
+                                        <span className={"font-bold text-primary-blue"}>getReducerMap</span>: () ={">"} reducers,
+                                        <br/>
+                                        <span className={"font-bold text-primary-blue"}>reduce</span>: (state: StateSchema, action: AnyAction) ={">"} [
+                                        <br/>
+                                        <span className={"font-bold text-orange ml-4"}>if</span> (keysToRemove.length {">"} 0) [
+                                        <br/>
+                                        <span className={"ml-8"}>state = [...state];</span>
+                                        <br/>
+                                        <span className={"ml-8"}>keysToRemove.<span className={"font-bold text-primary-blue"}>forEach</span>((key) ={">"} [</span> <span className={"font-bold text-orange"}>delete</span> state[key]; ]);
+                                        <br/>
+                                        <span className={"ml-8"}>keysToRemove = [];</span>
+                                        <br/>
+                                        <span className={"ml-4"}>]</span>
+                                        <br/>
+                                        <span className={"font-bold text-orange ml-4"}>return</span> combinedReducer(state, action);
+                                        <br/>
+                                        ],
+                                        <br/>
+                                        <span className={"font-bold text-primary-blue"}>add</span>: (key: StateSchemaKey, reducer: Reducer) ={">"} [ ... ],
+                                        <br/>
+                                        <span className={"font-bold text-primary-blue"}>remove</span>: (key: StateSchemaKey) ={">"} [ ... ],
+                                    </div>
+                                    ];
+                                </div>
+                                ];
+                            </code>
+                        </div>
+                    }
                 </div>
             </li>
             {
