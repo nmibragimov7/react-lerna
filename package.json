@@ -14,7 +14,8 @@
     "start:server": "npx lerna run start:server --scope=@monorepo/server",
     "build": "npx lerna run build",
     "build:main": "npx lerna run build --scope=@monorepo/main",
-    "build:client": "npx lerna run build --scope=@monorepo/client"
+    "build:client": "npx lerna run build --scope=@monorepo/client",
+    "build:manager": "npx lerna run build --scope=@monorepo/manager"
   },
   "dependencies": {
     "sass": "^1.57.1",
