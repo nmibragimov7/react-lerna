@@ -42,11 +42,11 @@ const SignIn: React.FC<IProps> = ({ setState }) => {
             <p className={"text-center text-2xl text-dark mb-4"}>Авторизоваться</p>
             <div className={styles.SignIn}>
                 <a
-                    href={process.env.REACT_APP_HOST_CLIENT || "https://dashing-boba-2dc719.netlify.app/"}
+                    href="https://dashing-boba-2dc719.netlify.app/"
                     className={"w-full text-center shadow px-4 py-2 bg-green text-light-blue hover:green/70"}
                 >Клиент</a>
                 <a
-                    href={process.env.REACT_APP_HOST_MANAGER || "https://helpful-pothos-66d078.netlify.app/"}
+                    href="https://helpful-pothos-66d078.netlify.app/"
                     className={"w-full text-center shadow px-4 py-2 bg-red text-light-blue hover:bg-red/70"}
                 >Менеджер</a>
             </div>
