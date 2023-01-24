@@ -65,8 +65,13 @@ export const useTodos = create<ITodo>(
         toggleTodo: async (id: number) => {
             set({loading: true});
             try {
-                const response: any = await axios.put(`https://jsonplaceholder.typicode.com/todos/${id}`);
-                // set({todos: response.data, error: null});
+                // const response: any = await axios.put(`https://jsonplaceholder.typicode.com/todos/${id}`);
+                const todos = [...get().todos];
+                const idx = get().todos.findIndex(todo => todo.id === id);
+                if (idx >= 0) {
+                    todos[idx].completed = !todos[idx].completed;
+                }
+                set({todos, error: null});
             } catch (e: any) {
                 set({error: e.response.data.message});
             } finally {
