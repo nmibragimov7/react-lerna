@@ -31,17 +31,29 @@ type MyPersist = (
 ) => StateCreator<IUser>
 
 export const useTodos = create<ITodo>(
-    (set, _) => ({
+    (set, get) => ({
         todos: [],
         loading: false,
         error: null,
         addTodo: async (title: string) => {
             set({loading: true});
             try {
-                const response: any = await axios.post("http://localhost:8000/todos", {
-                    title
+                // const response: any = await axios.post("http://localhost:8000/todos", {
+                //     title
+                // });
+
+                // set({todos: response.data, error: null});
+                set({
+                    todos: [
+                        ...get().todos,
+                        {
+                            id: get().todos.length + 1,
+                            title,
+                            completed: false
+                        }
+                    ],
+                    error: null
                 });
-                set({todos: response.data, error: null});
                 return "todo успешно добавлен";
             } catch (e: any) {
                 set({error: e.response.data.message});
@@ -53,8 +65,8 @@ export const useTodos = create<ITodo>(
         toggleTodo: async (id: number) => {
             set({loading: true});
             try {
-                const response: any = await axios.put(`http://localhost:8000/todos/${id}`);
-                set({todos: response.data, error: null});
+                const response: any = await axios.put(`https://jsonplaceholder.typicode.com/todos/${id}`);
+                // set({todos: response.data, error: null});
             } catch (e: any) {
                 set({error: e.response.data.message});
             } finally {
@@ -64,7 +76,7 @@ export const useTodos = create<ITodo>(
         fetchTodos: async () => {
             set({loading: true});
             try {
-                const response: any = await axios.get("http://localhost:8000/todos");
+                const response: any = await axios.get("https://jsonplaceholder.typicode.com/todos?_limit=10");
                 set({todos: response.data, error: null});
             } catch (e: any) {
                 set({error: e.response.data.message});
